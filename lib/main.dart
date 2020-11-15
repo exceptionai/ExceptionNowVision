@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_tts/flutter_tts.dart';
+
 import 'package:tflite/tflite.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image/image.dart' as img;
@@ -11,7 +13,7 @@ void main() {
 }
 
 const String ssd = "SSD MobileNet";
-const String yolo = "Tiny YOLOv2";
+const String yolo = "Tiny YOLOv2"; 
 
 class MyApp extends StatelessWidget {
   @override
@@ -28,12 +30,18 @@ class TfliteHome extends StatefulWidget {
   _TfliteHomeState createState() => _TfliteHomeState();
 }
 
+
+enum TtsState { playing, stopped, paused, continued }
+
+
 class _TfliteHomeState extends State<TfliteHome> {
-  String _model = ssd;
+  String _model = yolo;
   File _image;
 
   double _imageWidth;
   double _imageHeight;
+  FlutterTts flutterTts;
+  TtsState ttsState;
   bool _busy = false;
 
   List _recognitions;
@@ -41,6 +49,9 @@ class _TfliteHomeState extends State<TfliteHome> {
   @override
   void initState() {
     super.initState();
+
+    _initTTS();
+
     _busy = true;
 
     loadModel().then((val) {
@@ -48,6 +59,26 @@ class _TfliteHomeState extends State<TfliteHome> {
         _busy = false;
       });
     });
+  }
+
+  _initTTS(){
+    flutterTts = FlutterTts();
+    flutterTts.setStartHandler(() {
+    setState(() {
+      print("playing");
+      ttsState = TtsState.playing;
+    });
+  });flutterTts.setCompletionHandler(() {
+    setState(() {
+      print("Complete");
+      ttsState = TtsState.stopped;
+    });
+  });flutterTts.setErrorHandler((msg) {
+    setState(() {
+      print("error: $msg");
+      ttsState = TtsState.stopped;
+    });
+  });
   }
 
   loadModel() async {
@@ -137,6 +168,7 @@ class _TfliteHomeState extends State<TfliteHome> {
     Color blue = Colors.red;
 
     return _recognitions.map((re) {
+      _speak(re['detectedClass']);
       return Positioned(
         left: re["rect"]["x"] * factorX,
         top: re["rect"]["y"] * factorY,
@@ -159,6 +191,15 @@ class _TfliteHomeState extends State<TfliteHome> {
         ),
       );
     }).toList();
+  }
+
+  _speak(String text) async{
+    print(text);
+    if(ttsState != TtsState.playing){
+      var result = await flutterTts.speak(text);
+      if (result == 1) setState(() => ttsState = TtsState.playing);
+
+    }
   }
 
   @override
