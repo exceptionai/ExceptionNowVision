@@ -6,7 +6,6 @@ import 'package:flutter_tts/flutter_tts.dart';
 
 import 'package:tflite/tflite.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:image/image.dart' as img;
 
 void main() {
   runApp(MyApp());
@@ -32,7 +31,6 @@ class TfliteHome extends StatefulWidget {
 
 
 enum TtsState { playing, stopped, paused, continued }
-
 
 class _TfliteHomeState extends State<TfliteHome> {
   String _model = yolo;
@@ -65,17 +63,14 @@ class _TfliteHomeState extends State<TfliteHome> {
     flutterTts = FlutterTts();
     flutterTts.setStartHandler(() {
     setState(() {
-      print("playing");
       ttsState = TtsState.playing;
     });
   });flutterTts.setCompletionHandler(() {
     setState(() {
-      print("Complete");
       ttsState = TtsState.stopped;
     });
   });flutterTts.setErrorHandler((msg) {
     setState(() {
-      print("error: $msg");
       ttsState = TtsState.stopped;
     });
   });
@@ -98,7 +93,7 @@ class _TfliteHomeState extends State<TfliteHome> {
       }
       print(res);
     } on PlatformException {
-      print("Failed to load the model");
+      print("Falha ao carregar o modelo");
     }
   }
 
@@ -212,7 +207,7 @@ class _TfliteHomeState extends State<TfliteHome> {
       top: 0.0,
       left: 0.0,
       width: size.width,
-      child: _image == null ? Text("No Image Selected") : Image.file(_image),
+      child: _image == null ? Text("Nenhuma imagem selecionada") : Image.file(_image),
     ));
 
     stackChildren.addAll(renderBoxes(size));
@@ -225,11 +220,11 @@ class _TfliteHomeState extends State<TfliteHome> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("TFLite Demo"),
+        title: Text("Exception Now Vision"),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.image),
-        tooltip: "Pick Image from gallery",
+        tooltip: "Selecione uma imagem da galeria",
         onPressed: selectFromImagePicker,
       ),
       body: Stack(
