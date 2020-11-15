@@ -222,6 +222,7 @@ class _TfliteHomeState extends State<TfliteHome> {
       appBar: AppBar(
         title: Text("Exception Now Vision"),
       ),
+      //TODO: substituir a imagem unica da galeria por um stream de imagens generico para o óculos (IP CAM)
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.image),
         tooltip: "Selecione uma imagem da galeria",
