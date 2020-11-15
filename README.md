@@ -1,17 +1,6 @@
-# tflite_demo
+# Exception Now Vision
+Um projeto com o objetivo de facilitar o cotidiano de deficientes visuais
 
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-# ExceptionNowVision
+## Tecnologias
+O app foi construído com o SDK Flutter e utiliza o modelo do YoloV2 para detecção de objetos para processamento de imagens, em conjunto com um modulo de Text to Speech para informar ao deficiente sobre o objeto em questão.
+Nesta versão atual não consta a integração do stream de imagens com o app, podendo ser testado utilizando diretamente o celular ou emulador com imagens da galeria ao invés da camêra.
